@@ -1,0 +1,6 @@
+### JetBrains template
+.idea
+*.iml
+
+### Laravel template
+vendor/
