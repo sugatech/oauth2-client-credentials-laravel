@@ -23,6 +23,11 @@ class AuthRequest
     private $clientSecret;
 
     /**
+     * @var string
+     */
+    private $cacheKey;
+
+    /**
      * AuthRequest constructor.
      * @param string $baseUrl
      * @param int $clientId
@@ -33,6 +38,25 @@ class AuthRequest
         $this->baseUrl = $baseUrl;
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
+
+        $this->cacheKey = md5($this->baseUrl . $this->clientId . $this->clientSecret);
+    }
+
+    /**
+     * @return array
+     */
+    private function request()
+    {
+        return Zttp::withoutVerifying()
+            ->post(
+                $this->baseUrl,
+                [
+                    'grant_type' => 'client_credentials',
+                    'client_id' => $this->clientId,
+                    'client_secret' => $this->clientSecret,
+                ]
+            )
+            ->json();
     }
 
     /**
@@ -40,22 +64,13 @@ class AuthRequest
      */
     public function getAccessToken()
     {
-        if (Cache::has($this->baseUrl)) {
-            return Cache::get($this->baseUrl);
+        if (Cache::has($this->cacheKey)) {
+            return Cache::get($this->cacheKey);
         }
 
-        $response = Zttp::withoutVerifying()
-            ->post(
-                $this->baseUrl,
-                [
-                    'grant_type' => 'client_credentials',
-                    'client_id' => $this->clientId,
-                    'client_secret' => $this->clientSecret,
-                ]
-            )
-            ->json();
+        $response = $this->request();
 
-        Cache::add($this->baseUrl, $response['access_token'], $response['expires_in']);
+        Cache::add($this->cacheKey, $response['access_token'], $response['expires_in']);
 
         return $response['access_token'];
     }
@@ -63,22 +78,13 @@ class AuthRequest
     /**
      * @return string
      */
-    public function resetToken()
+    public function refreshAccessToken()
     {
-        Cache::forget($this->baseUrl);
+        Cache::forget($this->cacheKey);
 
-        $response = Zttp::withoutVerifying()
-            ->post(
-                $this->baseUrl,
-                [
-                    'grant_type' => 'client_credentials',
-                    'client_id' => $this->clientId,
-                    'client_secret' => $this->clientSecret,
-                ]
-            )
-            ->json();
+        $response = $this->request();
 
-        Cache::add($this->baseUrl, $response['access_token'], $response['expires_in']);
+        Cache::add($this->cacheKey, $response['access_token'], $response['expires_in']);
 
         return $response['access_token'];
     }
