@@ -5,7 +5,7 @@ namespace PassportClientCredentials;
 use Illuminate\Support\Facades\Cache;
 use Zttp\Zttp;
 
-class HttpRequest
+class AuthRequest
 {
     /**
      * @var string
@@ -23,7 +23,7 @@ class HttpRequest
     private $clientSecret;
 
     /**
-     * HttpRequest constructor.
+     * AuthRequest constructor.
      * @param string $baseUrl
      * @param int $clientId
      * @param string $clientSecret
