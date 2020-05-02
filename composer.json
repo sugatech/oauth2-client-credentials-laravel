@@ -1,8 +1,8 @@
 {
-    "name": "sugatech/passport-client-credentials-laravel",
-    "version": "20.0.0",
+    "name": "sugatech/oauth2-client-credentials-laravel",
+    "version": "20.0.1",
     "type": "library",
-    "description": "Simple oauth2 passport client credentials for laravel and lumen",
+    "description": "Oauth2 client credentials for laravel and lumen",
     "license": "MIT",
     "minimum-stability": "stable",
     "require": {
