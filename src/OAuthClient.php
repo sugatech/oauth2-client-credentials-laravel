@@ -1,6 +1,6 @@
 <?php
 
-namespace PassportClientCredentials;
+namespace OAuth2ClientCredentials;
 
 use Illuminate\Support\Facades\Cache;
 use Zttp\Zttp;
