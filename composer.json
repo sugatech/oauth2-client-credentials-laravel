@@ -1,6 +1,6 @@
 {
     "name": "sugatech/oauth2-client-credentials-laravel",
-    "version": "20.0.1",
+    "version": "20.0.2",
     "type": "library",
     "description": "Oauth2 client credentials for laravel and lumen",
     "license": "MIT",
