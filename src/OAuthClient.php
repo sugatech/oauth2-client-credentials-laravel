@@ -3,7 +3,7 @@
 namespace OAuth2ClientCredentials;
 
 use Illuminate\Support\Facades\Cache;
-use Zttp\Zttp;
+use Illuminate\Support\Facades\Http;
 
 class OAuthClient
 {
@@ -46,7 +46,7 @@ class OAuthClient
      */
     private function auth()
     {
-        $data = Zttp::withoutVerifying()
+        $data = Http::withoutVerifying()
             ->post(
                 $this->oauthUrl,
                 [
@@ -56,6 +56,12 @@ class OAuthClient
                 ]
             )
             ->json();
+
+        if (empty($data['expires_in'])) {
+            throw new \InvalidArgumentException(
+                "OAuth client is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed."
+            );
+        }
 
         Cache::put($this->cacheKey, $data, $data['expires_in']);
 
