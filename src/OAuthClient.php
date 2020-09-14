@@ -57,12 +57,6 @@ class OAuthClient
             )
             ->json();
 
-        if (empty($data['expires_in'])) {
-            throw new \InvalidArgumentException(
-                "OAuth client is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed."
-            );
-        }
-
         Cache::put($this->cacheKey, $data, $data['expires_in']);
 
         return $data;
