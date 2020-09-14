@@ -3,7 +3,7 @@
 namespace OAuth2ClientCredentials;
 
 use Illuminate\Support\Facades\Cache;
-use Zttp\Zttp;
+use Illuminate\Support\Facades\Http;
 
 class OAuthClient
 {
@@ -46,7 +46,7 @@ class OAuthClient
      */
     private function auth()
     {
-        $data = Zttp::withoutVerifying()
+        $data = Http::withoutVerifying()
             ->post(
                 $this->oauthUrl,
                 [
