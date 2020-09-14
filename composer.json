@@ -1,6 +1,6 @@
 {
     "name": "sugatech/oauth2-client-credentials-laravel",
-    "version": "20.1.0",
+    "version": "20.1.1",
     "type": "library",
     "description": "Oauth2 client credentials for laravel and lumen",
     "license": "MIT",
@@ -9,7 +9,8 @@
         "php": ">=7.2",
         "illuminate/support": "~5.3|^6.0|^7.0",
         "illuminate/config": "~5.3|^6.0|^7.0",
-        "illuminate/http": "^6.0|^7.0"
+        "illuminate/http": "^6.0|^7.0",
+        "guzzlehttp/guzzle": "^6.0|^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0"
