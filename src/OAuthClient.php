@@ -43,10 +43,11 @@ class OAuthClient
 
     /**
      * @return array
+     * @throws \Illuminate\Http\Client\RequestException
      */
     private function auth()
     {
-        $data = Http::withoutVerifying()
+        $response = Http::withoutVerifying()
             ->post(
                 $this->oauthUrl,
                 [
@@ -55,7 +56,9 @@ class OAuthClient
                     'client_secret' => $this->clientSecret,
                 ]
             )
-            ->json();
+            ->throw();
+
+        $data = $response->json();
 
         Cache::put($this->cacheKey, $data, $data['expires_in']);
 
@@ -65,6 +68,7 @@ class OAuthClient
     /**
      * @param bool $refresh
      * @return string
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function getAccessToken($refresh = false)
     {
